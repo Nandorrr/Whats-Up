@@ -1,0 +1,75 @@
+body{
+    margin: 0;
+}
+input{
+    height: 2rem;
+    width: 95%;
+    border-radius: 10px;
+    margin: 0.5rem;
+}
+.main-container{
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+
+    height: 100vh;
+}
+.contacts-holder{
+    border: 1px solid black;
+    width: 20%;
+    background-color: #339040;
+}
+.contact{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    height: 2rem;
+    width: 100%;
+    background-color: #C2CA07;
+    color: white;
+}
+.right-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid black;
+    height: 100vh;
+    width: 80%;
+    background-color: #F2F2F2;
+}
+.message-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.message{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    position: relative;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 2rem;
+    width: 45%;
+    background-color: #C2CA07;
+    color: #FFFFFF;
+}
+.name{
+    position: absolute;
+    top: 0;
+    font-weight: bold;
+    font-size: large;
+
+}
+
+.mine{
+    background-color: #339040;
+}
+

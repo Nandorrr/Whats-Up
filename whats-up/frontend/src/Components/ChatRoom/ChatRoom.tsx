@@ -1,9 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
+import {useSocket} from "../../CustomHooks/useSocket";
 
-function ChatRoom(){
+interface Props{
+    username: string;
+}
+
+function ChatRoom({username}: Props){
+    let  {isConnected, socketResponse, sendData } = useSocket(username);
+
     return(
         <div>
-            ChatRoom
+            {username}
         </div>
     )
 }

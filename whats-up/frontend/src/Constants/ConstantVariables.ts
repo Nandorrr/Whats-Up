@@ -1,0 +1,1 @@
+export const SERVER_IP : string = 'http://localhost:8080/chat';

@@ -5,14 +5,14 @@ type Props ={
 }
 
 function Login({setUserName}:Props) {
-    let [setUserInput, setSetUserInput] = useState("");
+    let [userInput, setUserInput] = useState("");
 
     let checkForLogin = (event: React.FormEvent) => {
         event.preventDefault();
-        if(setUserInput.trim() ===''){
+        if(userInput.trim() ===''){
             alert("Please type in the Username")
         }
-        setUserName(setUserInput)
+        setUserName(userInput)
     }
 
 return(
@@ -21,7 +21,7 @@ return(
             <input type="text"
                    name="userName"
                    placeholder="Username"
-                   onChange={event => setSetUserInput(event.target.value)}/>
+                   onChange={event => setUserInput(event.target.value)}/>
             <button type="submit">Go!</button>
         </form>
     </div>

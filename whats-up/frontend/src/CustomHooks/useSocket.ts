@@ -1,59 +1,52 @@
-import {Client, over} from 'stompjs';
-import SockJS from 'sockjs-client';
+import io, {Socket} from 'socket.io-client';
 import {SERVER_IP} from "../Constants/ConstantVariables";
-import  {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 
 
-let STOMPCLIENT : Client;
-let SOCK = new SockJS(SERVER_IP);
 
-export const useSocket = (username: string) => {
-    let [socket, setSocket] = useState();
-    let [socketResponse, setSocketResponse] = useState({
-        content: "",
-        username: "",
-        messageType: "",
-        createdDateTime: "",
+export const useSocket = (username: string, room: string) => {
+    const [socket, setSocket] = useState<Socket>();
+    const [socketResponse, setSocketResponse] = useState({
+        room: "",
+        message: "",
+        sender: "",
+        status: "",
     });
-
     const [isConnected, setConnected] = useState(false);
 
     const sendData = useCallback(
         (payload : any) => {
-            // @ts-ignore
-            socket.emit("send_message", {
-                content: payload.content,
-                username: username,
-                messageType: "CLIENT",
+            socket?.emit("send_message", {
+                room: room,
+                message: payload.content,
+                sender: username,
+                status:'MESSAGE'
             });
         },
-        [socket]
+        [socket, room]
     );
-    useEffect(() =>{
-        STOMPCLIENT = over(SOCK);
-        STOMPCLIENT.connect({}, onConnect, onError);
-        setConnected(true);
-        setSocket(socket)
-    })
-
-    const onConnect = (username: any) =>{
-        STOMPCLIENT.subscribe('/chatroom/public');
-        STOMPCLIENT.subscribe(`private/${username}/message`);
-        console.log("Joined");
-        userJoin(username);
-    }
-
-    const onError = (error: any) => {
-        console.log(error);
-    }
-
-    const userJoin = (username: string) =>{
-        let joinMessage : Object = {
-            sender : username,
-            status: 'JOIN'
+    useEffect(() => {
+        const socket = io(SERVER_IP, {
+            reconnection: false,
+            query: ["/chatroom/public"]
+        })
+        setSocket(socket);
+        socket.on("connect", () => setConnected(true));
+        socket.on("read_message", (res) => {
+            console.log(res);
+            setSocketResponse({
+                room: res.room,
+                message: res.content,
+                sender: res.username,
+                status: res.status,
+            });
+        });
+        return () => {
+            socket.close();
         };
-        STOMPCLIENT.send('/chat/message', {}, JSON.stringify(joinMessage));
-    }
-    return {socketResponse, isConnected, sendData};
-}
+    }, [room]);
+
+    return { socketResponse, isConnected, sendData };
+};
+
 

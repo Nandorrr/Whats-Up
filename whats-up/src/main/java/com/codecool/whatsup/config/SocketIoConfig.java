@@ -12,7 +12,7 @@ public class SocketIoConfig {
     @Value("${socket-server.host}")
     private String host;
 
-    @Value("{socket-server.port}")
+    @Value("#{new Integer('${socket-server.port}')}")
     private Integer port;
 
     @Bean
